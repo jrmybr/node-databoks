@@ -1,5 +1,5 @@
 const myKeys = {
-  local: {secret: "Ann"}
+  local: {secret: "test"}
 }
 
 module.exports = myKeys;
