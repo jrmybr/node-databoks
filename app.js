@@ -1,4 +1,14 @@
-const express = require ('express');
+const express = require('express');
+var path = require('path');
+var favicon = require('serve-favicon');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var bodyParser = require('body-parser');
+var passport = require('passport');
+
+// require('./api/models/db');
+require('./server/config/passport');
+
 const authRoutes = require('./server/routes/auth.routes')
 const app = express();
 

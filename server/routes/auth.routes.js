@@ -5,8 +5,8 @@ router.get('/login', (req, res) => {
 })
 
 // auth with jwt_token
-router.get('/jwttoken', (req, res) => {
-  res.send('requesting a jwt token')
+router.get('/update', (req, res) => {
+  res.send('update page')
 })
 
 router.get('/logout', (req,res) => {
