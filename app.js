@@ -6,19 +6,18 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const mongoose = require('mongoose')
-// require('./api/models/db');
 require('./server/config/passport');
 
-const authRoutes = require('./server/routes/auth.routes')
+const ApiRoutes = require('./server/routes/index')
 const app = express();
 
 mongoose.connect('mongodb://localhost/databoks');
 mongoose.Promise = global.Promise;
 
 app.use(bodyParser.json());
-app.use(passport.initialize());
-app.use('/auth', authRoutes);
 
+app.use(passport.initialize());
+app.use(ApiRoutes.AuthRouter);
 app.get('/', (req, res) => {
   res.send('Welcome Home')
 })

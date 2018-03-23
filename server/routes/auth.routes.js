@@ -8,7 +8,9 @@ const auth = jwt({
   secret: keys.local.secret,
   userProperty: 'payload'
 })
-router.post('/register', (req, res) => {
+const API_ROOT = '/api/auth'
+
+router.post(`${API_ROOT}/register`, (req, res) => {
   Users.create({
     email: req.body.email,
   }).then(user => {
@@ -24,7 +26,7 @@ router.post('/register', (req, res) => {
 })
 
 // auth with jwt_token
-router.post('/login', (req, res) => {
+router.post(`${API_ROOT}/login`, (req, res) => {
   passport.authenticate('local', function(err, user, info){
     var token;
     // If Passport throws/catches an error
@@ -51,7 +53,7 @@ router.post('/login', (req, res) => {
 //   res.send('Logout request')
 //})
 
-router.get('/profile', auth, (req, res) => {
+router.get(`${API_ROOT}/profile`, auth, (req, res) => {
   if (!req.payload._id) {
    res.status(401).json({
      "message" : "UnauthorizedError: private profile"
