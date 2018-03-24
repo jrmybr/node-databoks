@@ -1,0 +1,24 @@
+{
+  "name": "node-databoks",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "express": "^4.16.3",
+    "nodemon": "^1.17.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jrmybr/node-databoks.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jrmybr/node-databoks/issues"
+  },
+  "homepage": "https://github.com/jrmybr/node-databoks#readme"
+}
