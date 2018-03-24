@@ -6,7 +6,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 // const passport = require('passport');
 // const mongoose = require('mongoose')
-require('./server/config/auth0');
+// require('./server/config/auth0');
 
 // const ApiRoutes = require('./server/routes/index')
 const app = express();

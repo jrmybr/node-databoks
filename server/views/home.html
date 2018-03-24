@@ -6,20 +6,30 @@
   </head>
   <body>
     <script src="https://cdn.auth0.com/js/lock/11.3.0/lock.min.js"></script>
-
+    <!-- <script type="text/javascript" src="../config/auth0.js"></script> -->
     <h1>Databoks</h1>
     <button onclick="lock.show();">Login</button>
-
     <script>
 
     var lock = new Auth0Lock('7DaP9afiYncYSSfWXj6UAj5HmV7_HIDY', 'databoks-test.eu.auth0.com', {
   auth: {
     redirectUrl: 'http://localhost:5000/profile',
-    responseType: 'code',
+    responseType: 'token',
     params: {
       scope: 'openid email' // Learn about scopes: https://auth0.com/docs/scopes
     }
-  }
+  },
+  theme: {
+      logo: 'https://fr.freelogodesign.org/img/slide-logo-2.png',
+      labeledSubmitButton: false,
+      primaryColor: '#31324F',
+      socialButtonStyle: 'small'
+  },
+  languageDictionary: {
+    emailInputPlaceholder: "Email",
+    passwordInputPlaceholder: "Password",
+    title: "Databoks"
+  },
 });
     </script>
   </body>

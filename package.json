@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
+    "auth0-js": "^9.4.1",
     "express": "^4.16.3",
     "nodemon": "^1.17.2"
   },
