@@ -17,6 +17,7 @@ mongoose.Promise = global.Promise;
 app.use(bodyParser.json());
 
 app.use(passport.initialize());
+// console.log(ApiRoutes);
 app.use(ApiRoutes.AuthRouter);
 app.get('/', (req, res) => {
   res.send('Welcome Home')
