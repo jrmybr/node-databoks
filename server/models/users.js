@@ -12,9 +12,7 @@ var userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: false
-  },
-  hash: String,
-  salt: String
+  }
 });
 
 userSchema.methods.setPassword = function(password){
@@ -36,7 +34,7 @@ userSchema.methods.generateJwt = function() {
     email: this.email,
     name: this.name,
     exp: parseInt(expiry.getTime() / 1000),
-  }, keys.local.secret); 
+  }, keys.local.secret);
 };
 
 const Users = mongoose.model('Users', userSchema)
