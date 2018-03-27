@@ -1,44 +1,38 @@
-var crypto = require('crypto');
-var jwt = require('jsonwebtoken');
-const keys = require('../secret/keys')
-const mongoose = require('mongoose')
+// load the things we need
+var mongoose = require('mongoose');
+var bcrypt   = require('bcrypt');
 
-var userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    unique: true,
-    required: [true, 'Email field is required']
-  },
-  username: {
-    type: String,
-    required: false
-  },
-  hash: String,
-  salt: String
+// define the schema for our user model
+var userSchema = mongoose.Schema({
+
+    local            : {
+        email        : String,
+        password     : String
+    },
+    facebook         : {
+        id           : String,
+        token        : String,
+        name         : String,
+        email        : String
+    },
+    google           : {
+        id           : String,
+        token        : String,
+        email        : String,
+        name         : String
+    }
+
 });
 
-userSchema.methods.setPassword = function(password){
-  this.salt = crypto.randomBytes(16).toString('hex');
-  this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha512').toString('hex');
+// generating a hash
+userSchema.methods.generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
 };
 
+// checking if password is valid
 userSchema.methods.validPassword = function(password) {
-  var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha512').toString('hex');
-  return this.hash === hash;
+    return bcrypt.compareSync(password, this.local.password);
 };
 
-userSchema.methods.generateJwt = function() {
-  var expiry = new Date();
-  expiry.setDate(expiry.getDate() + 7);
-
-  return jwt.sign({
-    _id: this._id,
-    email: this.email,
-    name: this.name,
-    exp: parseInt(expiry.getTime() / 1000),
-  }, keys.local.secret); 
-};
-
-const Users = mongoose.model('Users', userSchema)
-
-module.exports = Users
+// create the model for users and expose it to our app
+module.exports = mongoose.model('User', userSchema);
