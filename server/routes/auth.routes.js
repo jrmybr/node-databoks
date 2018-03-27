@@ -10,8 +10,9 @@ const auth = jwt({
 })
 const API_ROOT = '/api/auth'
 
-router.post(`${API_ROOT}/register`, (req, res) => {
+router.post(`${API_ROOT}/register/local`, (req, res) => {
   Users.create({
+    provider: 'local',
     email: req.body.email,
   }).then(user => {
     user.setPassword(req.body.password);
@@ -67,4 +68,12 @@ router.get(`${API_ROOT}/profile`, auth, (req, res) => {
  }
 })
 
+///// GOOGLE /////
+router.get('/auth/google', passport.authenticate('google', {
+  scope: ['profile', 'email']
+}))
+
+router.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
+  res.send('U reached')
+})
 module.exports = router;

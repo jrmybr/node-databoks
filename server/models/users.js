@@ -4,6 +4,7 @@ const keys = require('../secret/keys')
 const mongoose = require('mongoose')
 
 var userSchema = new mongoose.Schema({
+  provider: {type: String},
   email: {
     type: String,
     unique: true,
@@ -13,6 +14,7 @@ var userSchema = new mongoose.Schema({
     type: String,
     required: false
   },
+  googleID: String,
   hash: String,
   salt: String
 });
@@ -36,7 +38,7 @@ userSchema.methods.generateJwt = function() {
     email: this.email,
     name: this.name,
     exp: parseInt(expiry.getTime() / 1000),
-  }, keys.local.secret); 
+  }, keys.local.secret);
 };
 
 const Users = mongoose.model('Users', userSchema)

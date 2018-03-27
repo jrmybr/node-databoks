@@ -1,6 +1,9 @@
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var mongoose = require('mongoose');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const GoogleStrategy = require('passport-google-oauth20');
+const mongoose = require('mongoose');
+
+const keys = require('../secret/keys')
 const User = require('../models/users')
 
 passport.use(new LocalStrategy({
@@ -26,3 +29,16 @@ passport.use(new LocalStrategy({
     });
   }
 ));
+
+passport.use(
+  new GoogleStrategy({
+    clientID: keys.google.clientID,
+    clientSecret: keys.google.clientSecret,
+    callbackURL: '/auth/google/callback'
+  }, (accessToken, refreshToken, profile, done) => {
+    console.log(profile.emails[0].value);
+    console.log(profile.id);
+    new User({ email: profile.emails[0].value, googleID:profile.id}).save()
+
+  })
+)
