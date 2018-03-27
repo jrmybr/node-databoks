@@ -27,12 +27,15 @@ app.use(session({
     saveUninitialized: true
 }));
 
+app.use(ApiRoutes.AuthRouter)
+
 app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', (req, res) => {
   res.send('Welcome Home')
 })
+
 
 app.use(function (err, req, res, next) {
   if (err.name === 'UnauthorizedError') {
@@ -41,7 +44,7 @@ app.use(function (err, req, res, next) {
   }
 });
 
-require('./server/routes/auth.routes.js')(app, passport);
+// require('./server/routes/auth.routes.js')(app, passport);
 
 app.listen(5000, () => {
   console.log('listening on port 5000');
