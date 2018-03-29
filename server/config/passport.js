@@ -88,22 +88,53 @@ passport.use(
     clientSecret: keys.google.clientSecret,
     callbackURL: '/auth/google/callback'
   }, (accessToken, refreshToken, profile, done) => {
-    User.findOne({'google.googleID': profile.id}).then((currentUser) => {
-      if(currentUser){
-        done(null, currentUser);
+    User.findOne ({email: profile.emails[0].value}).then(currentUser => {
+      if (currentUser) {
+        if (currentUser.google.googleID === undefined){
+          // Si le mail existe déjà mais pas de compte local
+          currentUser.google.googleID = profile.id;
+          currentUser.google.token = accessToken;
+          currentUser.save();
+          return  done(null, currentUser, {token: currentUser.generateJwt()})
+        } else {
+          return done(null, currentUser);
+        }
       } else {
         User.create({
-          email: profile.emails[0].value,
-          'google.googleID': profile.id,
-          'google.token': accessToken
-        }).then((newUser) => {
-          console.log('200', newUser.local);
-          done(null, newUser)
-        }).catch(err => {
-          console.log(err);
-          done(err, null)
+          email: email,
+        }).then(newUser => {
+          newUser.google.googleID = profile.id;
+          newUser.google.token = accessToken;
+          newUser.save();
+          return  done(null, newUser, {token: newUser.generateJwt()})
+        }).catch((err) => {
+          return done(err);
         })
       }
+    }).catch((err) => {
+      return done(err);
     })
+
+
+
+
+
+    // User.findOne({'google.googleID': profile.id}).then((currentUser) => {
+    //   if(currentUser){
+    //     done(null, currentUser);
+    //   } else {
+    //     User.create({
+    //       email: profile.emails[0].value,
+    //       'google.googleID': profile.id,
+    //       'google.token': accessToken
+    //     }).then((newUser) => {
+    //       console.log('200');
+    //       done(null, newUser)
+    //     }).catch(err => {
+    //       console.log(err);
+    //       done(err, null)
+    //     })
+    //   }
+    // })
   })
 )
