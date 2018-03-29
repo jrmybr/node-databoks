@@ -26,6 +26,11 @@ router.post(`${API_ROOT}/register/local`, (req, res) => {
   })
 })
 
+router.get('/logout', (req, res) => {
+  req.logout();
+  res.redirect('/')
+})
+
 // auth with jwt_token
 router.post(`${API_ROOT}/login`, (req, res) => {
   passport.authenticate('local', function(err, user, info){
@@ -74,6 +79,8 @@ router.get('/auth/google', passport.authenticate('google', {
 }))
 
 router.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
-  res.send('U reached')
+  // res.send(req.user)
+  res.redirect('/profile/')
 })
+
 module.exports = router;

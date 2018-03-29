@@ -30,15 +30,39 @@ passport.use(new LocalStrategy({
   }
 ));
 
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id).then((user) => {
+    done(null, user);
+  });
+});
+
 passport.use(
   new GoogleStrategy({
     clientID: keys.google.clientID,
     clientSecret: keys.google.clientSecret,
     callbackURL: '/auth/google/callback'
   }, (accessToken, refreshToken, profile, done) => {
-    console.log(profile.emails[0].value);
-    console.log(profile.id);
-    new User({ email: profile.emails[0].value, googleID:profile.id}).save()
-
+    User.findOne({googleID: profile.id}).then((currentUser) => {
+      if(currentUser){
+        done(null, currentUser);
+        console.log(currentUser);
+      } else {
+        User.create({
+          provider: 'google',
+          email: profile.emails[0].value,
+          googleID: profile.id
+        }).then((newUser) => {
+          console.log('200');
+          done(null, newUser)
+        }).catch(err => {
+          console.log(err);
+          done(err, null)
+        })
+      }
+    })
   })
 )
