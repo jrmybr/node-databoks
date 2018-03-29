@@ -10,20 +10,40 @@ const auth = jwt({
 })
 const API_ROOT = '/api/auth'
 
-router.post(`${API_ROOT}/register/local`, (req, res) => {
-  Users.create({
-    provider: 'local',
-    email: req.body.email,
-  }).then(user => {
-    user.setPassword(req.body.password);
-    user.save();
-    res.status(200);
-    res.json({
-      "token" : user.generateJwt()
-    });
-  }).catch((err) => {
-    res.json(err)
-  })
+router.post(`${API_ROOT}/register/local`, passport.authenticate('local-signup'),(req, res) => {
+  res.redirect('/profile/');
+  // Users.findOne({email: req.body.email}).then((user) => {
+  //   if (user) {
+  //     console.log(user.local.salt, Object.keys(user.local));
+  //     if (user.local.salt === undefined){
+  //       // Si le mail existe déjà mais pas de compte local
+  //       user.setPassword(req.body.password);
+  //       user.save();
+  //       res.status(200);
+  //       res.json({
+  //         "token" : user.generateJwt()
+  //       });
+  //     } else {
+  //       res.status(401);
+  //       res.json({
+  //         "message" : "An account with these mail already exist"
+  //       });
+  //     }
+  //   } else {
+  //     Users.create({
+  //       email: req.body.email,
+  //     }).then(user => {
+  //       user.setPassword(req.body.password);
+  //       user.save();
+  //       res.status(200);
+  //       res.json({
+  //         "token" : user.generateJwt()
+  //       });
+  //     }).catch((err) => {
+  //       res.json(err)
+  //     })
+  //   }
+  // })
 })
 
 router.get('/logout', (req, res) => {
@@ -34,7 +54,7 @@ router.get('/logout', (req, res) => {
 // auth with jwt_token
 router.post(`${API_ROOT}/login`, (req, res) => {
   passport.authenticate('local', function(err, user, info){
-    var token;
+    let token;
     // If Passport throws/catches an error
     if (err) {
       res.status(404).json(err);
@@ -54,10 +74,6 @@ router.post(`${API_ROOT}/login`, (req, res) => {
   })(req, res);
 
 })
-
-// router.get('/logout', (req,res) => {
-//   res.send('Logout request')
-//})
 
 router.get(`${API_ROOT}/profile`, auth, (req, res) => {
   if (!req.payload._id) {
