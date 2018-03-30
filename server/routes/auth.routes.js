@@ -11,7 +11,7 @@ const auth = jwt({
 const API_ROOT = '/api/auth'
 
 router.post(`${API_ROOT}/register/local`, passport.authenticate('local-signup'),(req, res) => {
-  res.redirect('/profile/');
+  res.redirect('/api/profile/');
   // Users.findOne({email: req.body.email}).then((user) => {
   //   if (user) {
   //     console.log(user.local.salt, Object.keys(user.local));
@@ -96,7 +96,7 @@ router.get('/auth/google', passport.authenticate('google', {
 
 router.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
   // res.send(req.user)
-  res.redirect('/profile/')
+  res.redirect('/api/profile/')
 })
 
 module.exports = router;
