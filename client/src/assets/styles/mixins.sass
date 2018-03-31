@@ -1,0 +1,48 @@
+@import './colors'
+
+@mixin header-title
+  font-family: 'Contrail One', sans-serif
+  text-transform: uppercase
+  font-size: 155%
+  letter-spacing: -2px
+
+@mixin home-title
+  h1
+    font-family: 'Contrail One', sans-serif
+    text-transform: uppercase
+    font-size: 300%
+    letter-spacing: 5px
+    margin-bottom: 15px
+
+@mixin input-style
+  background-color: transparent
+  color: $white
+  padding: 10px 10px 10px 5px
+  margin: 0
+  border: none
+  border-bottom: 1px solid darken($blue, 20%)
+  border-radius: 0
+  box-shadow: none
+  font-size: .875rem
+  height: 2rem
+  box-sizing: border-box
+  transition: border-color .15s linear, background .15s linear
+  margin-bottom: 5px
+  &::placeholder
+    color: lighten($blue, 20%)
+  &:focus
+    outline-color: $white
+
+@mixin button-more
+  min-height: 50px
+  min-width: 120px
+  border: 2px solid $white
+  border-radius: 2px
+  background-color: $blue
+  color: $white
+  font-size: 17px
+  text-transform: uppercase
+  letter-spacing: -1px
+  &:hover
+    background-color: $white
+    color: $blue
