@@ -18,33 +18,54 @@
       <div id="form-wrapper">
         <h3>New to Databoks?</h3>
         <h4>Create your free account to get started</h4>
-        <form v-on:submit="onSubmit(email, password)">
+        <form v-on:submit="onSubmit">
             <input type="email" v-model="email" placeholder="Email"/>
             <input type="password" v-model="password" placeholder="password"/>
             <button type="submit">Sign up</button>
         </form>
 
-        <hr>
+        <!-- <hr>
 
-        <button type="button">Sign up with Google</button>
-        <button type="button">Sign up with Facebook</button>
+        <button v-on:click="onGoogle" type="button">Sign up with Google</button>
+        <button type="button">Sign up with Facebook</button> -->
       </div>
   </div>
   </section>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { REGISTER } from '@/store/actions.type'
 
 export default {
   data () {
     return {
-      email: null,
-      password: null
+      email: '',
+      password: ''
     }
   },
   methods: {
-    onSubmit (email, password) {
-      console.log(email, password);
+    postit (url, mybody) {
+      return fetch(url, {method: "post", headers:{"content-type": "application/json"},body: JSON.stringify(mybody)})
+    },
+    getit (url) {
+      return fetch(url, {headers: {"content-type": 'application/x-www-form-urlencoded'}})
+    },
+    onSubmit () {
+      this.postit('http://localhost:5000/api/auth/register', {email: this.email, password: this.password}).then(res => {console.log(res);})
+
+      // this.$store
+      //   .dispatch(REGISTER, {
+      //     "email": this.email,
+      //     "password": this.password
+      //   })
+      //   .then(() => { console.log('register done');})
+    },
+    onGoogle () {
+      this.getit('http://localhost:5000/auth/google').then( res => {console.log(res);})
+      // this.$auth.authenticate('google').then((res) => {
+      //   console.log(res);
+      // })
     }
   }
 }

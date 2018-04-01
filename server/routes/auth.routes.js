@@ -10,40 +10,8 @@ const auth = jwt({
 })
 const API_ROOT = '/api/auth'
 
-router.post(`${API_ROOT}/register/local`, passport.authenticate('local-signup'),(req, res) => {
+router.post(`${API_ROOT}/register`, passport.authenticate('local-signup'),(req, res) => {
   res.redirect('/api/profile/');
-  // Users.findOne({email: req.body.email}).then((user) => {
-  //   if (user) {
-  //     console.log(user.local.salt, Object.keys(user.local));
-  //     if (user.local.salt === undefined){
-  //       // Si le mail existe déjà mais pas de compte local
-  //       user.setPassword(req.body.password);
-  //       user.save();
-  //       res.status(200);
-  //       res.json({
-  //         "token" : user.generateJwt()
-  //       });
-  //     } else {
-  //       res.status(401);
-  //       res.json({
-  //         "message" : "An account with these mail already exist"
-  //       });
-  //     }
-  //   } else {
-  //     Users.create({
-  //       email: req.body.email,
-  //     }).then(user => {
-  //       user.setPassword(req.body.password);
-  //       user.save();
-  //       res.status(200);
-  //       res.json({
-  //         "token" : user.generateJwt()
-  //       });
-  //     }).catch((err) => {
-  //       res.json(err)
-  //     })
-  //   }
-  // })
 })
 
 router.get('/logout', (req, res) => {
@@ -91,11 +59,13 @@ router.get(`${API_ROOT}/profile`, auth, (req, res) => {
 
 ///// GOOGLE /////
 router.get('/auth/google', passport.authenticate('google', {
+
   scope: ['profile', 'email']
 }))
 
 router.get('/auth/google/callback', passport.authenticate('google'), (req, res) => {
   // res.send(req.user)
+  console.log('GOOGLE AUTH CALLBACK');
   res.redirect('/api/profile/')
 })
 

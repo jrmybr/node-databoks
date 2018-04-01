@@ -12,7 +12,9 @@ const ApiService = {
   },
 
   setHeader () {
-    Vue.axios.defaults.headers.common['Authorization'] = `Token ${JwtService.getToken()}`
+    // Vue.axios.defaults.headers.common['Authorization'] = `Token ${JwtService.getToken()},`
+    Vue.axios.defaults.headers.common['Access-Control-Allow-Origin'] = API_URL,
+    Vue.http.headers.common['Access-Control-Request-Method'] = '*'
   },
 
   query (resource, params) {
@@ -24,6 +26,7 @@ const ApiService = {
   },
 
   get (resource, slug = '') {
+    console.log(resource);
     return Vue.axios
       .get(`${resource}/${slug}`)
       .catch((error) => {
@@ -32,7 +35,8 @@ const ApiService = {
   },
 
   post (resource, params) {
-    return Vue.axios.post(`${resource}`, params)
+    console.log(resource, params);
+    return Vue.axios.post('http://localhost:5000/api/auth/register', params)
   },
 
   update (resource, slug, params) {

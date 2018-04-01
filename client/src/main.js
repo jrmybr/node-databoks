@@ -3,6 +3,7 @@
 import Vue from 'vue'
 
 import App from './App'
+import auth from '@/authenticate'
 import router from '@/router'
 import store from '@/store'
 
@@ -18,8 +19,10 @@ ApiService.init()
 
 /* eslint-disable no-new */
 new Vue({
+  auth,
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 })

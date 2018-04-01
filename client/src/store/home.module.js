@@ -1,6 +1,6 @@
 import {
   UPDATE_SIGN_FORM
-} from './mutations.type'
+} from './actions.type'
 
 const state = {
   formType: 'signin'

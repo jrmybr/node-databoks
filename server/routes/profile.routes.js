@@ -11,9 +11,8 @@ const authCheck = (req, res, next) => {
 };
 
 router.get(`${API_ROOT}/`, authCheck, (req,res) => {
-  console.log(req._passport.instance.Authenticator._strategies);
   res.status(200).json({
-    email: req.user.email,
+    user: req.user,
   })
 })
 

@@ -9,6 +9,10 @@ var userSchema = new mongoose.Schema({
     unique: true,
     required: [true, 'Email field is required']
   },
+  firstConnection: { 
+    type: Boolean,
+    default: true
+  },
   local: {
     salt: String,
     hash: String

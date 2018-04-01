@@ -101,7 +101,7 @@ passport.use(
         }
       } else {
         User.create({
-          email: email,
+          email: profile.emails[0].value,
         }).then(newUser => {
           newUser.google.googleID = profile.id;
           newUser.google.token = accessToken;
