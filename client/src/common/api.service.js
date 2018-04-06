@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-// import JwtService from '@/common/jwt.service'
+import JwtService from '@/common/jwt.service'
 
 const API_URL = 'http://localhost:5000'
 
@@ -12,7 +12,7 @@ const ApiService = {
   },
 
   setHeader () {
-    // Vue.axios.defaults.headers.common['Authorization'] = `Token ${JwtService.getToken()},`
+    Vue.axios.defaults.headers.common['Authorization'] = `Token ${JwtService.getToken()},`
     Vue.axios.defaults.headers.common['Access-Control-Allow-Origin'] = API_URL,
     Vue.http.headers.common['Access-Control-Request-Method'] = '*'
   },

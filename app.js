@@ -24,6 +24,7 @@ app.use(bodyParser.json());
 app.use(cors(
     { origin: 'http://localhost:8080',
       methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+      allowedHeaders: ['Content-Type', 'Authorization']
     }
   )
 )
@@ -37,15 +38,6 @@ app.use(passport.session());
 
 app.get('/', (req, res) => {
   res.send('Welcome Home')
-})
-
-app.get('/posts', (req, res) => {
-  res.send(
-    [{
-      title: "Hello World!",
-      description: "Hi there! How are you?"
-    }]
-  )
 })
 
 app.use(ApiRoutes.AuthRouter);
