@@ -1,20 +1,26 @@
 import Vue from 'vue'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-// import JwtService from '@/common/jwt.service'
+import JwtService from '@/common/jwt.service'
 
 const API_URL = 'http://localhost:5000'
 
 const ApiService = {
   init () {
+    console.log('init api');
     Vue.use(VueAxios, axios)
     Vue.axios.defaults.baseURL = API_URL
+    Vue.axios.defaults.withCredentials = true
+    Vue.axios.defaults.headers.common['Authorization'] = `Token ${JwtService.getToken()},`
+    // Vue.http.options.xhr = {withCredentials: true};
   },
 
   setHeader () {
-    // Vue.axios.defaults.headers.common['Authorization'] = `Token ${JwtService.getToken()},`
+    console.log('set header');
+    Vue.axios.defaults.headers.common['Authorization'] = `Token ${JwtService.getToken()},`
     Vue.axios.defaults.headers.common['Access-Control-Allow-Origin'] = API_URL,
     Vue.http.headers.common['Access-Control-Request-Method'] = '*'
+
   },
 
   query (resource, params) {
@@ -26,7 +32,6 @@ const ApiService = {
   },
 
   get (resource, slug = '') {
-    console.log(resource);
     return Vue.axios
       .get(`${resource}/${slug}`)
       .catch((error) => {

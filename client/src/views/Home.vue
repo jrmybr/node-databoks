@@ -24,10 +24,10 @@
             <button type="submit">Sign up</button>
         </form>
 
-        <!-- <hr>
+        <hr>
 
         <button v-on:click="onGoogle" type="button">Sign up with Google</button>
-        <button type="button">Sign up with Facebook</button> -->
+        <!-- <button type="button">Sign up with Facebook</button> -->
       </div>
   </div>
   </section>
@@ -45,21 +45,28 @@ export default {
     }
   },
   methods: {
-    postit (url, mybody) {
-      return fetch(url, {method: "post", headers:{"content-type": "application/json"},body: JSON.stringify(mybody)})
-    },
+    // postit (url, mybody) {
+    //   return fetch(url, {method: "post", headers:{"content-type": "application/json"},body: JSON.stringify(mybody)})
+    // },
     getit (url) {
       return fetch(url, {headers: {"content-type": 'application/x-www-form-urlencoded'}})
     },
     onSubmit () {
-      this.postit('http://localhost:5000/api/auth/register', {email: this.email, password: this.password}).then(res => {console.log(res);})
-
-      // this.$store
-      //   .dispatch(REGISTER, {
-      //     "email": this.email,
-      //     "password": this.password
-      //   })
-      //   .then(() => { console.log('register done');})
+      // this.postit('http://localhost:5000/api/auth/register', {email: this.email, password: this.password}).then(res => {console.log(res);})
+      const registerPromise = new Promise((resolve, reject) => {
+        this.$store
+          .dispatch(REGISTER, {
+            email: this.email,
+            password: this.password
+          })
+          .then((res) => {
+            resolve(res.data)
+          })
+      })
+      registerPromise.then((data) => {
+          console.log(data)
+          this.$router.push({name: "profile"})
+        })
     },
     onGoogle () {
       this.getit('http://localhost:5000/auth/google').then( res => {console.log(res);})

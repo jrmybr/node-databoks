@@ -11,8 +11,9 @@ const authCheck = (req, res, next) => {
 };
 
 router.get(`${API_ROOT}/`, authCheck, (req,res) => {
-  res.status(200).json({
-    user: req.user,
+  console.log(req.user);
+  return res.status(200).json({
+    user: 'me',
   })
 })
 

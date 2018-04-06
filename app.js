@@ -22,8 +22,12 @@ app.use(morgan('combined'))
 app.use(bodyParser.json());
 
 app.use(cors(
-    { origin: 'http://localhost:8080',
-      methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    { 'origin': 'http://localhost:8080',
+      'allowedHeaders': ['sessionId', 'Content-Type'],
+      'exposedHeaders': ['sessionId'],
+      'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+      'preflightContinue': true,
+      'credentials': true
     }
   )
 )
@@ -39,24 +43,8 @@ app.get('/', (req, res) => {
   res.send('Welcome Home')
 })
 
-app.get('/posts', (req, res) => {
-  res.send(
-    [{
-      title: "Hello World!",
-      description: "Hi there! How are you?"
-    }]
-  )
-})
-
 app.use(ApiRoutes.AuthRouter);
 app.use(ApiRoutes.ProfileRouter);
-
-// app.use(function (err, req, res, next) {
-//   if (err.name === 'UnauthorizedError') {
-//     res.status(401);
-//     res.json({"message" : err.name + ": " + err.message});
-//   }
-// });
 
 app.listen(5000, () => {
   console.log('listening on port 5000');
