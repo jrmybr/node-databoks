@@ -52,14 +52,14 @@ export default {
       return fetch(url, {headers: {"content-type": 'application/x-www-form-urlencoded'}})
     },
     onSubmit () {
-      this.postit('http://localhost:5000/api/auth/register', {email: this.email, password: this.password}).then(res => {console.log(res);})
+      // this.postit('http://localhost:5000/api/auth/register', {email: this.email, password: this.password}).then(res => {console.log(res);})
 
-      // this.$store
-      //   .dispatch(REGISTER, {
-      //     "email": this.email,
-      //     "password": this.password
-      //   })
-      //   .then(() => { console.log('register done');})
+      this.$store
+        .dispatch(REGISTER, {
+          "email": this.email,
+          "password": this.password
+        })
+        .then(() => { this.$router.push({name: 'profile'})})
     },
     onGoogle () {
       this.getit('http://localhost:5000/auth/google').then( res => {console.log(res);})

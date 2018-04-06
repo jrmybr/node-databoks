@@ -11,7 +11,11 @@ const auth = jwt({
 const API_ROOT = '/api/auth'
 
 router.post(`${API_ROOT}/register`, passport.authenticate('local-signup'),(req, res) => {
-  res.redirect('/api/profile/');
+  // res.redirect('/api/profile/');
+  return res.status(200).json({
+    token: req.user.generateJwt(),
+    user: req.user.email
+  })
 })
 
 router.get('/logout', (req, res) => {
